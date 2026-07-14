@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
-import 'notaComum.dart';
 import 'notaProva.dart';
 import 'notaTrabalho.dart';
 import 'turma.dart';
@@ -14,13 +12,12 @@ void main() {
 ║         SISTEMA DE GERENCIAMENTO DE TURMA - DART             ║
 ║                                                                ║
 ║ 1 - Cadastrar aluno                                           ║
-║ 2 - Lançar nota (simples)                                     ║
-║ 3 - Lançar nota de prova (peso 2)                             ║
-║ 4 - Lançar nota de trabalho (peso 1)                          ║
-║ 5 - Listar todos os alunos                                    ║
-║ 6 - Exibir detalhes de um aluno                               ║
-║ 7 - Exibir média geral da turma                               ║
-║ 8 - Exportar turma em JSON                                    ║
+║ 2 - Lançar nota de prova (peso 2)                             ║
+║ 3 - Lançar nota de trabalho (peso 1)                          ║
+║ 4 - Listar todos os alunos                                    ║
+║ 5 - Exibir detalhes de um aluno                               ║
+║ 6 - Exibir média geral da turma                               ║
+║ 7 - Exportar turma em JSON                                    ║
 ║ 0 - Sair                                                       ║
 ╚════════════════════════════════════════════════════════════════╝''');
 
@@ -38,31 +35,27 @@ void main() {
         break;
 
       case '2':
-        _lancarNotaComum(turma);
-        break;
-
-      case '3':
         _lancarNotaProva(turma);
         break;
 
-      case '4':
+      case '3':
         _lancarNotaTrabalho(turma);
         break;
 
-      case '5':
+      case '4':
         turma.listar();
         break;
 
-      case '6':
+      case '5':
         _exibirDetalhesAluno(turma);
         break;
 
-      case '7':
+      case '6':
         print(
             '\n📊 Média Geral da Turma: ${turma.mediaGeralTurma().toStringAsFixed(2)}\n');
         break;
 
-      case '8':
+      case '7':
         _exportarTurmaJSON(turma);
         break;
 
@@ -74,38 +67,6 @@ void main() {
         print('\n❌ Opção inválida.');
     }
   }
-}
-
-void _lancarNotaComum(Turma turma) {
-  if (turma.totalAlunos == 0) {
-    print('❌ Nenhum aluno cadastrado.');
-    return;
-  }
-
-  turma.listar();
-  stdout.write('\nÍndice do aluno: ');
-  final idxStr = stdin.readLineSync() ?? '';
-  final idx = int.tryParse(idxStr);
-
-  if (idx == null || idx < 0 || idx >= turma.totalAlunos) {
-    print('❌ Índice inválido.');
-    return;
-  }
-
-  stdout.write('Nota (ex: 8.5): ');
-  final notaStr = stdin.readLineSync() ?? '';
-  final valor = double.tryParse(notaStr);
-
-  if (valor == null || valor < 0 || valor > 10) {
-    print('❌ Valor de nota inválido (deve estar entre 0 e 10).');
-    return;
-  }
-
-  stdout.write('Descrição da avaliação: ');
-  final desc = stdin.readLineSync() ?? '';
-
-  turma.lancarNota(idx, NotaComum(valor, desc.trim()));
-  print('✅ Nota lançada com sucesso.\n');
 }
 
 void _lancarNotaProva(Turma turma) {
@@ -206,8 +167,7 @@ void _exportarTurmaJSON(Turma turma) {
 
     if (nomeArquivo.trim().isNotEmpty) {
       try {
-        final arquivo =
-            File('${nomeArquivo.trim()}.json');
+        final arquivo = File('${nomeArquivo.trim()}.json');
         arquivo.writeAsStringSync(jsonString);
         print('✅ Arquivo salvo com sucesso: ${arquivo.path}');
       } catch (e) {
