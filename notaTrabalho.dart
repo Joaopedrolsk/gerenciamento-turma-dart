@@ -8,4 +8,12 @@ class notaTrabalho extends nota {
 
   @override
   String get tipo => 'trabalho';
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      ...super.toMap(),
+      'tipo': 'trabalho',
+    };
+  }
 }
