@@ -1,123 +1,129 @@
 # Gerenciamento de Turma (Dart)
 
-Um sistema simples e robusto para gerenciar turmas, alunos e atividades, escrito em Dart. Este repositório contém a lógica principal do projeto, testes e documentação básica para executar e contribuir.
+Sistema de linha de comando (CLI) simples para gerenciar turmas, alunos e atividades, escrito em Dart. Ideal para fins educacionais e como exemplo didático de orientação a objetos em Dart.
 
 ---
 
 ## Índice
 
 - [Sobre](#sobre)
-- [Principais funcionalidades](#principais-funcionalidades)
-- [Tecnologias](#tecnologias)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Uso](#uso)
+- [Stack](#stack)
+- [Como rodar](#como-rodar)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Testes](#testes)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 - [Declaração de uso de Inteligência Artificial](#declaração-de-uso-de-inteligência-artificial)
+- [Segurança e privacidade](#segurança-e-privacidade)
 - [Contato](#contato)
 
 ---
 
 ## Sobre
 
-Este projeto tem como objetivo fornecer uma aplicação de linha de comando/biblioteca para gerenciamento de turmas em contextos educacionais. Ele foi desenvolvido com foco em clareza de código, facilidade de uso e extensibilidade para futuras melhorias.
+Este repositório contém uma aplicação CLI em Dart para cadastrar alunos, lançar notas (provas e trabalhos), listar informações e exportar os dados da turma em JSON. O código é organizado como um exemplo educativo que demonstra conceitos como classes, encapsulamento e polimorfismo.
 
-## Principais funcionalidades
+### Stack
+- Linguagem: Dart (100% do código)
+- Runtime: Dart VM (CLI)
+- Notáveis: nenhum pacote externo obrigatório — o projeto usa apenas Dart puro. Recomenda-se adicionar `package:test` se quiser escrever testes automatizados.
 
-- Cadastro e listagem de turmas
-- Adição, remoção e edição de alunos
-- Registro de atividades e notas
-- Exportação/importação simples (JSON)
-- Testes unitários que cobrem a lógica central
+## Como rodar
 
-## Tecnologias
+Pré-requisitos:
+- Dart SDK instalado: https://dart.dev/get-dart
 
-- Dart
-- Dart CLI (puro) — sem dependência de Flutter
-- Testes com package:test
+Opções:
 
-## Pré-requisitos
+1) Executar diretamente (recomendado se NÃO houver `pubspec.yaml`):
 
-- Dart SDK (>=2.12)
+```bash
+# do diretório do projeto
+dart run main.dart
+```
 
-Verifique a instalação do Dart em: https://dart.dev/get-dart
+2) Se você adicionar um `pubspec.yaml` (recomendado para gerenciar dependências e testes):
 
-## Instalação
+```bash
+dart pub get
+dart run main.dart
+```
 
-1. Clone o repositório:
-
-   git clone https://github.com/Joaopedrolsk/gerenciamento-turma-dart.git
-   cd gerenciamento-turma-dart
-
-2. Instale dependências:
-
-   dart pub get
-
-## Uso
-
-- Para executar a aplicação (se houver um ponto de entrada em bin/):
-
-  dart run bin/main.dart
-
-- Para usar como pacote em outro projeto, importe os arquivos relevantes em lib/ e siga as interfaces públicas.
-
-Exemplos de uso (linha de comando):
-
-- Criar uma turma
-- Adicionar aluno
-- Listar turmas
-
-(Adapte para os comandos existentes no projeto.)
+Observações:
+- O ponto de entrada atual é `main.dart` na raiz do repositório. Se preferir estrutura padrão de packages, mova `main.dart` para `bin/` e mantenha o código de biblioteca em `lib/`.
+- O menu interativo oferece as opções principais (exemplos):
+  - 1 - Cadastrar aluno
+  - 2 - Lançar nota de prova (peso 2)
+  - 3 - Lançar nota de trabalho (peso 1)
+  - 4 - Listar todos os alunos
+  - 5 - Exibir detalhes de um aluno
+  - 6 - Exibir média geral da turma
+  - 7 - Exportar turma em JSON
+  - 0 - Sair
 
 ## Estrutura do projeto
 
-- lib/ — código principal
-- bin/ — pontos de entrada (se aplicável)
-- test/ — testes unitários
-- example/ — exemplos de uso
-- README.md — este arquivo
+- `main.dart`         — ponto de entrada CLI (menu interativo)
+- `aluno.dart`        — modelo Aluno (métodos de média, serialização)
+- `turma.dart`        — lógica da Turma (cadastro, listagem, export)
+- `nota.dart`         — classe abstrata `nota`
+- `notaProva.dart`    — implementação `notaProva` (peso 2)
+- `notaTrabalho.dart` — implementação `notaTrabalho` (peso 1)
+
+> Observação: o README anterior mencionava diretórios (`lib/`, `bin/`, `test/`, `example/`) — atualmente o código está no nível raiz. Se desejar reorganizar para um package Dart, mova os arquivos para `lib/`/`bin/` e adicione `pubspec.yaml`.
 
 ## Testes
 
-Execute a suíte de testes com:
+Atualmente não há testes automatizados incluídos neste repositório.
 
-  dart test
+Para adicionar testes:
+1. Crie um arquivo `pubspec.yaml` (exemplo abaixo).
+2. Adicione `dev_dependencies:
+   test: ^1.0.0`
+3. Crie a pasta `test/` e escreva testes com `package:test`.
+4. Rode:
 
-Certifique-se de que todos os testes passam antes de abrir PRs.
+```bash
+dart pub get
+dart test
+```
+
+Exemplo mínimo de `pubspec.yaml` (adicione este arquivo na raiz se quiser gerenciar dependências):
+
+```yaml
+name: gerenciamento_turma_dart
+description: Sistema simples de gerenciamento de turmas em Dart (CLI).
+version: 0.1.0
+environment:
+  sdk: ">=2.12.0 <4.0.0"
+
+dependencies: {}
+
+dev_dependencies:
+  test: ^1.0.0
+```
 
 ## Contribuição
 
-Contribuições são bem-vindas. Siga estas diretrizes:
+Contribuições são bem-vindas. Sugestão de fluxo:
 
 1. Abra uma issue descrevendo a sugestão ou bug.
-2. Crie uma branch de feature: `git checkout -b feat/desenvolvimento`.
-3. Faça commits pequenos e claros.
-4. Abra um Pull Request descrevendo as mudanças e por que são necessárias.
+2. Crie uma branch: `git checkout -b feat/minha-mudanca`.
+3. Faça commits pequenos e descritivos.
+4. Abra um Pull Request explicando as mudanças.
 
 ## Licença
 
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Este projeto declara uso da licença MIT. Se desejar que eu adicione um arquivo `LICENSE` com o texto da MIT, posso gerar para você.
 
 ## Declaração de uso de Inteligência Artificial
 
-Algumas partes deste repositório — como partes da documentação, exemplos e possíveis trechos de código auxiliar — podem ter sido geradas ou editadas com o auxílio de ferramentas de Inteligência Artificial (por exemplo, modelos de linguagem). A IA foi utilizada para acelerar tarefas como:
-
-- Gerar templates de documentação (README, comentários)
-- Sugerir estruturas de código e exemplos de uso
-- Auxiliar na escrita de mensagens de commit e descrições de PRs
-
-Importante:
-
-- Todas as decisões de design, lógica de negócios e validações foram revisadas por desenvolvedores humanos.
-- Se encontrar algo incorreto, incompleto ou potencialmente inseguro introduzido por sugestões automatizadas, por favor abra uma issue ou envie um PR.
+Partes da documentação podem ter sido escritas ou auxiliadas por ferramentas automatizadas. As decisões de design e a lógica de negócio foram revisadas por humanos. Se algo parecer incorreto, por favor abra uma issue.
 
 ## Segurança e privacidade
 
-- Não inclua chaves secretas, senhas ou dados pessoais em commits.
-- Use variáveis de ambiente para segredos em integrações e CI.
+- Não coloque chaves secretas, senhas ou dados pessoais em commits.
+- Use variáveis de ambiente para segredos em integrações/CI.
 
 ## Contato
 
